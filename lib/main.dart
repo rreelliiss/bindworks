@@ -13,7 +13,7 @@ class PasswordKeeperApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AccountListPage()
+      home: AccountListPage(AccountListPageController())
     );
   }
 }

@@ -2,11 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:password_keeper/business/account_manager.dart';
 
+import 'account_add_page.dart';
 import 'account_list.dart';
+
+class AccountListPageController{
+  addAccount(BuildContext context){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountAddPage(AccountAddPageController())));
+
+  }
+}
 
 class AccountListPage extends StatelessWidget {
   final AccountManager _accountManager = AccountManager();
-  AccountListPage({Key key}) : super(key: key);
+  final AccountListPageController _accountListPageController;
+  AccountListPage(this._accountListPageController);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +26,7 @@ class AccountListPage extends StatelessWidget {
       body: AccountList(AccountListController(_accountManager)),
       floatingActionButton: IconButton(
         icon: Icon(Icons.add),
-        onPressed: () => _accountManager.addAccount() ,
+        onPressed: () => _accountListPageController.addAccount(context) ,
       ),
     );
   }
