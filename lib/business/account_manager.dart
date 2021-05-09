@@ -9,13 +9,13 @@ class AccountManager extends Cubit<List<Account>>{
 
   addAccount() {
     List<Account> newState = List.from(state);
-    newState.add(Account("github", "jakub2"));
+    newState.add(Account(state.length, "github", "jakub2"));
     emit(newState);
   }
 
   AccountManager(): super( [
-    Account("facebook", "jakub"),
-    Account("gmail", "siller"),
-    Account("github", "jakub2"),
+    Account(0,"facebook", "jakub"),
+    Account(1,"gmail", "siller"),
+    Account(2,"github", "jakub2"),
   ]);
 }

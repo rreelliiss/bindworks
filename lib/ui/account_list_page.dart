@@ -14,7 +14,7 @@ class AccountListPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Accounts"),
       ),
-      body: AccountList(_accountManager),
+      body: AccountList(AccountListController(_accountManager)),
       floatingActionButton: IconButton(
         icon: Icon(Icons.add),
         onPressed: () => _accountManager.addAccount() ,

@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_keeper/business/account.dart';
 import 'package:password_keeper/business/account_manager.dart';
+import 'package:password_keeper/ui/account_detail_page.dart';
 
 import 'model.dart';
 
@@ -19,35 +21,59 @@ class AccountListController extends Cubit<List<AccountViewModel>>{
 }
 
 class AccountList extends StatelessWidget {
-  final AccountManager _accountManager;
-  AccountList(this._accountManager);
+  final AccountListController _accountListController;
+  AccountList(this._accountListController);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AccountListController(_accountManager),
+      create: (_) => _accountListController,
       child: BlocBuilder<AccountListController, List<AccountViewModel>>(
         builder: (_, accounts) {
-          return ListView(children:accounts.map((a) => AccountListItem(a)).toList());
+          return ListView(
+              children: accounts.map(
+                      (a) => AccountListItem(
+                          AccountListItemController(a)
+                      )
+              ).toList());
         },
       ),
     );
   }
 }
 
-class AccountListItem extends StatelessWidget {
+
+class AccountListItemController {
   final AccountViewModel account;
 
-  AccountListItem(this.account);
+  AccountListItemController(this.account);
+
+  String get accountName => account.accountName;
+  String get userName => account.userName;
+
+  onTap(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailPage(AccountDetailPageController(account))));
+  }
+}
+
+class AccountListItem extends StatelessWidget {
+  final AccountListItemController controller;
+  AccountListItem(this.controller);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(account.accountName),
-        Text(account.userName),
-      ],
-    );
+    return
+        ListTile(
+          title:  Row(
+            children: [
+              Text(controller.accountName),
+              Text(controller.userName),
+            ],
+          ),
+            onTap: () => controller.onTap(context),
+        );
+
+
   }
 
 }
