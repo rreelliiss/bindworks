@@ -16,13 +16,9 @@ class AccountManager extends Cubit<List<Account>>{
 
   addAccount(AccountInputModel accountToAdd) {
     List<Account> newState = List.from(state);
-    newState.add(Account(state.length, accountToAdd._accountName, accountToAdd._userName));
+    newState.add(Account(state.length, accountToAdd._accountName, accountToAdd._userName, accountToAdd._password));
     emit(newState);
   }
 
-  AccountManager(): super( [
-    Account(0,"facebook", "jakub"),
-    Account(1,"gmail", "siller"),
-    Account(2,"github", "jakub2"),
-  ]);
+  AccountManager(): super([]);
 }
