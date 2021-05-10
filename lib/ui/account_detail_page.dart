@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:password_keeper/ui/model.dart';
 
 class AccountDetailPageController{
@@ -43,7 +44,12 @@ class AccountDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row( children: [Text(_accountDetailController.accountName)]),
+        Row( children: [
+          IconButton(icon: Icon(Icons.copy), onPressed: (){
+      Clipboard.setData(ClipboardData(text: _accountDetailController.accountName));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Copied to clipboard'), duration: Duration(seconds: 3),));
+    },), Text(_accountDetailController.accountName)]),
         Row( children: [Text(_accountDetailController.userName)]),
         Row( children: [Text("***")]),
     ]
