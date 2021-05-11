@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:password_keeper/business/account_manager.dart';
 import 'package:password_keeper/ui/model.dart';
 
 class AccountDetailPageController{
-  AccountViewModel _account;
-  AccountDetailPageController(this._account);
+  AccountPublicDataViewModel _account;
+  AccountManager _accountManager;
+  AccountDetailPageController(this._account, this._accountManager);
 
   String get accountName => _account.accountName;
-  AccountDetailController createAccountDetailController() => AccountDetailController(_account);
+  AccountDetailController createAccountDetailController() => AccountDetailController(_account, _accountManager);
 }
 
 class AccountDetailPage extends StatelessWidget {
@@ -29,13 +31,14 @@ class AccountDetailPage extends StatelessWidget {
 }
 
 class AccountDetailController {
-  AccountViewModel _account;
-  AccountDetailController(this._account);
+  AccountPublicDataViewModel _account;
+  AccountManager _accountManager;
+  AccountDetailController(this._account, this._accountManager);
 
   String get accountName => _account.accountName;
   String get userName => _account.userName;
 
-  String get password => _account.password;
+  Future<String> get password async => await _accountManager.getPasswordOfAccount(_account.id); //todo when doesn't exist
 }
 
 class AccountDetail extends StatelessWidget {
@@ -49,7 +52,19 @@ class AccountDetail extends StatelessWidget {
         children: [
           PublicDetail(PublicDetailController(DetailViewModel("account Name", _accountDetailController.accountName))),
           PublicDetail(PublicDetailController(DetailViewModel("user Name", _accountDetailController.userName))),
-          SecuredDetail(SecuredDetailController("password", _accountDetailController.password)),
+          FutureBuilder(
+              future: _accountDetailController.password,
+              builder: (context, AsyncSnapshot<String> snapshot){
+                if(snapshot.hasError){
+                  return Text("error during loading password"); //todo;
+                } else  if(snapshot.hasData){
+                return SecuredDetail(SecuredDetailController("password", snapshot.data));
+                }
+                return Center( child: CircularProgressIndicator());
+              }
+
+          )
+
         ]
     );
   }

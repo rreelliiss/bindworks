@@ -30,8 +30,8 @@ class AccountFormController {
 
   AccountFormController(this._accountManager);
 
-  void addAccount(AccountInputModel account) {
-    _accountManager.addAccount(account);
+  Future<void> addAccount(AccountInputModel account) async {
+    _accountManager.addAccount(account); //todo await andd future buider....
   }
 }
 
@@ -45,16 +45,6 @@ class AccountFormInputController {
     _value = value;
   }
 }
-
-// class AccountFormInput extends StatelessWidget{
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-//
-// }
-
-
 
 class AccountForm extends StatelessWidget {
   final AccountFormController _accountFormController;

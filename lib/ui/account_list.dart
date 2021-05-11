@@ -8,15 +8,18 @@ import 'package:password_keeper/ui/account_detail_page.dart';
 
 import 'model.dart';
 
-class AccountListController extends Cubit<List<AccountViewModel>>{
+class AccountListController extends Cubit<List<AccountPublicDataViewModel>>{
   AccountManager _accountManager;
 
+
+  AccountManager get accountManager => _accountManager;
+
   AccountListController(this._accountManager) : super(_getAccountViewModels(_accountManager.getAccounts())){
-   _accountManager.stream.listen((accounts) =>emit(_getAccountViewModels(accounts)));
+    _accountManager.accountsCubit.stream.listen((accounts) =>emit(_getAccountViewModels(accounts)));
   }
 
-  static Iterable<AccountViewModel> _getAccountViewModels(List<Account> accounts) =>
-      accounts.map((a) => AccountViewModel.fromAccount(a)).toList();
+  static Iterable<AccountPublicDataViewModel> _getAccountViewModels(List<AccountPublicData> accounts) =>
+      accounts.map((a) => AccountPublicDataViewModel.fromAccount(a)).toList();
 
 }
 
@@ -28,12 +31,12 @@ class AccountList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _accountListController,
-      child: BlocBuilder<AccountListController, List<AccountViewModel>>(
+      child: BlocBuilder<AccountListController, List<AccountPublicDataViewModel>>(
         builder: (_, accounts) {
           return ListView(
               children: accounts.map(
                       (a) => AccountListItem(
-                          AccountListItemController(a)
+                          AccountListItemController(a, _accountListController._accountManager)
                       )
               ).toList());
         },
@@ -44,15 +47,15 @@ class AccountList extends StatelessWidget {
 
 
 class AccountListItemController {
-  final AccountViewModel account;
-
-  AccountListItemController(this.account);
+  final AccountPublicDataViewModel account;
+  AccountManager _accountManager;
+  AccountListItemController(this.account, this._accountManager);
 
   String get accountName => account.accountName;
   String get userName => account.userName;
 
   onTap(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailPage(AccountDetailPageController(account))));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailPage(AccountDetailPageController(account, _accountManager))));
   }
 }
 

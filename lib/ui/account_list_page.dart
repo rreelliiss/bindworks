@@ -6,7 +6,7 @@ import 'account_add_page.dart';
 import 'account_list.dart';
 
 class AccountListPageController{
-  final AccountManager _accountManager = AccountManager();
+  final AccountManager _accountManager = AccountManager(InMemoryAccountPublicDataStorage(), SecurePasswordStorage());
   AccountManager get accountManager => _accountManager;
   String get pageTitle => "Accounts";
 
