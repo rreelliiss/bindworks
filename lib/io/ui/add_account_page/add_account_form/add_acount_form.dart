@@ -1,29 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:password_keeper/business/account.dart';
-import 'package:password_keeper/business/account_manager.dart';
-import 'package:password_keeper/ui/model.dart';
-
-class AccountAddPageController{
-
-}
-
-class AccountAddPage extends StatelessWidget {
-  final AccountAddPageController _accountDetailPageController;
-  final AccountManager _accountManager;
-  AccountAddPage(this._accountDetailPageController, this._accountManager);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("add account"), //todo
-      ),
-      body: AccountForm(AccountFormController(_accountManager)),
-    );
-  }
-
-}
 
 class AccountFormController {
   final AccountManager _accountManager;
@@ -58,9 +34,9 @@ class AccountForm extends StatelessWidget {
     final userNameController = TextEditingController();
     final passwordController = TextEditingController();
     return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-        child:Container(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Container(
             padding: EdgeInsets.all(30),
             child:
             Column(
@@ -68,7 +44,10 @@ class AccountForm extends StatelessWidget {
                   TextFormField(
                     controller: accountNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) => value.isEmpty ? "must not be empty" : null, //todo
+                    validator: (value) =>
+                    value.isEmpty
+                        ? "must not be empty"
+                        : null, //todo
                     decoration: InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Enter account name' //todo
@@ -77,7 +56,10 @@ class AccountForm extends StatelessWidget {
                   TextFormField(
                     controller: userNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) => value.isEmpty ? "must not be empty" : null, //todo
+                    validator: (value) =>
+                    value.isEmpty
+                        ? "must not be empty"
+                        : null, //todo
                     decoration: InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Enter account username' //todo
@@ -86,8 +68,13 @@ class AccountForm extends StatelessWidget {
                   TextFormField(
                     controller: passwordController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) => value.isEmpty ? "must not be empty" : null, //todo
-                    obscureText: true, //todo
+                    validator: (value) =>
+                    value.isEmpty
+                        ? "must not be empty"
+                        : null,
+                    //todo
+                    obscureText: true,
+                    //todo
                     decoration: InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Enter account name' //todo
@@ -96,10 +83,12 @@ class AccountForm extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () { //todo extract
                       if (_formKey.currentState.validate()) {
-                        AccountInputModel account = AccountInputModel(accountNameController.value.text, userNameController.value.text, passwordController.value.text);
+                        AccountInputModel account = AccountInputModel(
+                            accountNameController.value.text,
+                            userNameController.value.text,
+                            passwordController.value.text);
                         _accountFormController.addAccount(account);
                         Navigator.pop(context);
-
                       }
                     },
                     child: Text('Submit'),
@@ -109,7 +98,4 @@ class AccountForm extends StatelessWidget {
         )
     );
   }
-
-
-
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:password_keeper/business/account_manager.dart';
+import 'package:password_keeper/business/account.dart';
+import 'package:password_keeper/io/database/InMemoryAccountPublicDataStorage.dart';
+import 'package:password_keeper/io/database/SecurePasswordStorage.dart';
+import 'package:password_keeper/io/ui/add_account_page/account_add_page.dart';
 
-import 'account_add_page.dart';
-import 'account_list.dart';
+import 'account_list/account_list.dart';
 
 class AccountListPageController{
   final AccountManager _accountManager = AccountManager(InMemoryAccountPublicDataStorage(), SecurePasswordStorage());

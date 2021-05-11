@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_keeper/ui/account_list_page.dart';
+import 'package:password_keeper/io/ui/account_list_page/account_list_page.dart';
 
 void main() {
   runApp(PasswordKeeperApp());

@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:password_keeper/business/account_manager.dart';
-import 'package:password_keeper/ui/model.dart';
+import 'package:password_keeper/business/account.dart';
+import 'package:password_keeper/io/ui/account_detail_page/account_detail/model.dart';
+import 'package:password_keeper/io/ui/account_detail_page/account_detail/public_account_detail/public_detail.dart';
+import 'package:password_keeper/io/ui/account_detail_page/account_detail/secret_account_detail/secured_detail.dart';
+import 'package:password_keeper/io/ui/model.dart';
 
 class AccountDetailPageController{
   AccountPublicDataViewModel _account;
@@ -69,93 +72,6 @@ class AccountDetail extends StatelessWidget {
     );
   }
 
-}
-
-class PublicDetailController {
-  DetailViewModel _detailViewModel;
-
-  PublicDetailController(this._detailViewModel);
-
-  String get value => _detailViewModel.value;
-  DetailViewModel get detailViewModel => _detailViewModel;
-}
-
-class PublicDetail extends StatelessWidget {
-
-  final PublicDetailController _controller;
-
-  const PublicDetail(this._controller);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-        children: [
-         CopyToClipBoardButton(CopyToClipBoardButtonController(_controller.detailViewModel)),
-          Text(_controller.value)
-        ]
-    );
-  }
-}
-
-class DetailViewModel {
-  String _value;
-  String _valueName;
-
-  DetailViewModel(this._valueName, this._value);
-
-  String get value => _value;
-  String get valueName => _valueName;
-}
-
-
-class SecretViewModel implements DetailViewModel {
-  String _value;
-  String _displayValue;
-  String _valueName;
-
-  SecretViewModel(this._valueName, this._value, this._displayValue);
-
-  String get value => _value;
-  String get valueName => _valueName;
-  String get displayValue => _displayValue;
-}
-
-class SecuredDetailController extends Cubit<SecretViewModel> {
-  static const String MASKED_VALUE = "***";
-  final String _valueName;
-  final String _value;
-  SecuredDetailController(this._valueName, this._value) : super(SecretViewModel( _valueName, _value, MASKED_VALUE));
-
-
-  void showSecretButtonPressed() {
-    emit(SecretViewModel( _valueName, _value, _value));
-  }
-}
-
-class SecuredDetail extends StatelessWidget {
-
-  final SecuredDetailController _controller ;
-
-  const SecuredDetail(this._controller);
-
-  @override
-  Widget build(BuildContext context) {
-
-   return  BlocProvider(
-      create: (_) => _controller,
-      child: BlocBuilder<SecuredDetailController, SecretViewModel>(
-        builder: (_, SecretViewModel detailView) {
-          return Row(
-              children: [
-                CopyToClipBoardButton(CopyToClipBoardButtonController(detailView)),
-                Text(detailView.displayValue),
-                IconButton(icon: Icon(Icons.visibility), onPressed: _controller.showSecretButtonPressed)
-              ]
-          );
-        },
-      ),
-    );
-  }
 }
 
 

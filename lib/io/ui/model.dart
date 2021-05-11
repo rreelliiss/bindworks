@@ -12,16 +12,3 @@ class AccountPublicDataViewModel {
   AccountPublicDataViewModel.fromAccount(AccountPublicData a):
         this._id = a.id, this._accountName = a.name, this._userName = a.user;
 }
-
-// class AccountViewModel{
-//   AccountPublicDataViewModel _publicData;
-//   String _password;
-//
-//
-//   AccountViewModel(this._publicData, this._password);
-//
-//   AccountPublicDataViewModel get publicData => _publicData;
-//   String get password => _password;
-//   String get userName => _publicData.userName;
-//   String get accountName => _publicData.accountName;
-// }

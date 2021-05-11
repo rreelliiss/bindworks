@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_keeper/business/account.dart';
-import 'package:password_keeper/business/account_manager.dart';
-import 'package:password_keeper/ui/account_detail_page.dart';
+import 'package:password_keeper/business/account.dart';
+import 'package:password_keeper/io/ui/account_list_page/account_list/account_list_item/account_list_item.dart';
 
-import 'model.dart';
+import '../../model.dart';
 
 class AccountListController extends Cubit<List<AccountPublicDataViewModel>>{
   AccountManager _accountManager;
@@ -46,37 +46,3 @@ class AccountList extends StatelessWidget {
 }
 
 
-class AccountListItemController {
-  final AccountPublicDataViewModel account;
-  AccountManager _accountManager;
-  AccountListItemController(this.account, this._accountManager);
-
-  String get accountName => account.accountName;
-  String get userName => account.userName;
-
-  onTap(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailPage(AccountDetailPageController(account, _accountManager))));
-  }
-}
-
-class AccountListItem extends StatelessWidget {
-  final AccountListItemController controller;
-  AccountListItem(this.controller);
-
-  @override
-  Widget build(BuildContext context) {
-    return
-        ListTile(
-          title:  Row(
-            children: [
-              Text(controller.accountName),
-              Text(controller.userName),
-            ],
-          ),
-            onTap: () => controller.onTap(context),
-        );
-
-
-  }
-
-}
